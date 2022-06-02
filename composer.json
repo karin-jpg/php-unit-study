@@ -1,7 +1,7 @@
 {
     "autoload": {
         "psr-4": {
-            "Leilao\\": "src/"
+            "Auction\\": "src/"
         }
     },
     "require-dev": {
