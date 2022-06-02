@@ -8,11 +8,19 @@ class Avaliador
 {
   private $maiorLance;
 
+
+  public function __construct()
+  {
+    $this->maiorLance = -INF;
+  }
+
   public function avalia(Leilao $leilao): void
   {
-    $lances = $leilao->getLances();
-    $ultimoLance = $lances[count($lances) - 1];
-    $this->maiorLance = $ultimoLance->getValor();
+    foreach ($leilao->getLances() as $lance) {
+      if ($lance->getValor() > $this->maiorLance){
+        $this->maiorLance = $lance->getValor();
+      }
+    }
   }
 
   public function getMaiorLance(): float
