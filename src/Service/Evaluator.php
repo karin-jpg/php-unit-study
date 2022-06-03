@@ -11,6 +11,7 @@ class Evaluator
   public function __construct()
   {
     $this->highestBid = -INF;
+    $this->lowestBid = INF;
   }
 
   public function evaluates(Auction $auction): void
@@ -18,6 +19,8 @@ class Evaluator
     foreach ($auction->getBids() as $bid) {
       if ($bid->getValue() > $this->highestBid){
         $this->highestBid = $bid->getValue();
+      } else if ($bid->getValue() < $this->lowestBid) {
+        $this->lowestBid = $bid->getValue();
       }
     }
   }
@@ -25,5 +28,10 @@ class Evaluator
   public function getHighestBid(): float
   {
     return $this->highestBid;
+  }
+
+  public function getLowestBid(): float
+  {
+    return $this->lowestBid;
   }
 }
