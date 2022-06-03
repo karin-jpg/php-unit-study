@@ -19,7 +19,9 @@ class Evaluator
     foreach ($auction->getBids() as $bid) {
       if ($bid->getValue() > $this->highestBid){
         $this->highestBid = $bid->getValue();
-      } else if ($bid->getValue() < $this->lowestBid) {
+      } 
+      
+      if ($bid->getValue() < $this->lowestBid) {
         $this->lowestBid = $bid->getValue();
       }
     }
