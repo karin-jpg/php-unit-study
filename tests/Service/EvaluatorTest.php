@@ -19,8 +19,8 @@ class EvaluatorTest extends TestCase
     $user1 = new User("João");
     $user2 = new User("Maria");
 
-    $Auction->recebeBid(new Bid($user1, 2000));
-    $Auction->recebeBid(new Bid($user2, 2500));
+    $Auction->receivesBid(new Bid($user1, 2000));
+    $Auction->receivesBid(new Bid($user2, 2500));
 
     $Evaluator = new Evaluator();
 
@@ -38,8 +38,8 @@ class EvaluatorTest extends TestCase
     $user1 = new User("João");
     $user2 = new User("Maria");
 
-    $Auction->recebeBid(new Bid($user2, 2500));
-    $Auction->recebeBid(new Bid($user1, 2000));
+    $Auction->receivesBid(new Bid($user2, 2500));
+    $Auction->receivesBid(new Bid($user1, 2000));
 
     $Evaluator = new Evaluator();
 
