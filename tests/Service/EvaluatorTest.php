@@ -49,4 +49,42 @@ class EvaluatorTest extends TestCase
 
     self::assertEquals(2500, $highestBid);
   }  
+
+  public function testEvaluatorMustFindThelowestBidInDescendingOrder(): void {
+
+    $Auction = new Auction('New car');
+
+    $user1 = new User("João");
+    $user2 = new User("Maria");
+
+    $Auction->receivesBid(new Bid($user2, 2500));
+    $Auction->receivesBid(new Bid($user1, 2000));
+
+    $Evaluator = new Evaluator();
+
+    $Evaluator->evaluates($Auction);
+
+    $lowestBid = $Evaluator->getLowestBid();
+
+    self::assertEquals(2000, $lowestBid);
+  }
+
+  public function testEvaluatorMustFindThelowestBidInAscendingOrder(): void {
+
+    $Auction = new Auction('New car');
+
+    $user1 = new User("João");
+    $user2 = new User("Maria");
+
+    $Auction->receivesBid(new Bid($user1, 2000));
+    $Auction->receivesBid(new Bid($user2, 2500));
+
+    $Evaluator = new Evaluator();
+
+    $Evaluator->evaluates($Auction);
+
+    $lowestBid = $Evaluator->getLowestBid();
+
+    self::assertEquals(2000, $lowestBid);
+  }
 }
