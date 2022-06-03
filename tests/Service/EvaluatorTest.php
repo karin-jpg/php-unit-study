@@ -15,12 +15,19 @@ class EvaluatorTest extends TestCase
   public function testEvaluatorMustFindTheHighestBidInAscendingOrder(): void 
   {
     $Auction = new Auction('New car');
+    
+    $user1 = new User("User1");
+    $user2 = new User("User2");
+    $user3 = new User("User3");
+    $user4 = new User("User3");
 
-    $user1 = new User("João");
-    $user2 = new User("Maria");
-
-    $Auction->receivesBid(new Bid($user1, 2000));
-    $Auction->receivesBid(new Bid($user2, 2500));
+    $Auction->receivesBid(new Bid($user4, 200));
+    $Auction->receivesBid(new Bid($user3, 1500));
+    $Auction->receivesBid(new Bid($user2, 2000));
+    $Auction->receivesBid(new Bid($user1, 2500));
+    
+    
+    
 
     $Evaluator = new Evaluator();
 
@@ -35,11 +42,16 @@ class EvaluatorTest extends TestCase
 
     $Auction = new Auction('New car');
 
-    $user1 = new User("João");
-    $user2 = new User("Maria");
 
-    $Auction->receivesBid(new Bid($user2, 2500));
-    $Auction->receivesBid(new Bid($user1, 2000));
+    $user1 = new User("User1");
+    $user2 = new User("User2");
+    $user3 = new User("User3");
+    $user4 = new User("User3");
+
+    $Auction->receivesBid(new Bid($user1, 2500));
+    $Auction->receivesBid(new Bid($user2, 2000));
+    $Auction->receivesBid(new Bid($user3, 1500));
+    $Auction->receivesBid(new Bid($user4, 200));
 
     $Evaluator = new Evaluator();
 
@@ -54,11 +66,15 @@ class EvaluatorTest extends TestCase
 
     $Auction = new Auction('New car');
 
-    $user1 = new User("João");
-    $user2 = new User("Maria");
+    $user1 = new User("User1");
+    $user2 = new User("User2");
+    $user3 = new User("User3");
+    $user4 = new User("User3");
 
-    $Auction->receivesBid(new Bid($user2, 2500));
-    $Auction->receivesBid(new Bid($user1, 2000));
+    $Auction->receivesBid(new Bid($user1, 2500));
+    $Auction->receivesBid(new Bid($user2, 2000));
+    $Auction->receivesBid(new Bid($user3, 1500));
+    $Auction->receivesBid(new Bid($user4, 200));
 
     $Evaluator = new Evaluator();
 
@@ -66,18 +82,23 @@ class EvaluatorTest extends TestCase
 
     $lowestBid = $Evaluator->getLowestBid();
 
-    self::assertEquals(2000, $lowestBid);
+    self::assertEquals(200, $lowestBid);
   }
 
   public function testEvaluatorMustFindThelowestBidInAscendingOrder(): void {
 
     $Auction = new Auction('New car');
 
-    $user1 = new User("João");
-    $user2 = new User("Maria");
 
-    $Auction->receivesBid(new Bid($user1, 2000));
-    $Auction->receivesBid(new Bid($user2, 2500));
+    $user1 = new User("User1");
+    $user2 = new User("User2");
+    $user3 = new User("User3");
+    $user4 = new User("User3");
+
+    $Auction->receivesBid(new Bid($user4, 200));
+    $Auction->receivesBid(new Bid($user3, 1500));
+    $Auction->receivesBid(new Bid($user2, 2000));
+    $Auction->receivesBid(new Bid($user1, 2500));
 
     $Evaluator = new Evaluator();
 
@@ -85,6 +106,6 @@ class EvaluatorTest extends TestCase
 
     $lowestBid = $Evaluator->getLowestBid();
 
-    self::assertEquals(2000, $lowestBid);
+    self::assertEquals(200, $lowestBid);
   }
 }
