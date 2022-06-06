@@ -12,112 +12,44 @@ require 'vendor/autoload.php';
 
 class EvaluatorTest extends TestCase
 {
-  public function testEvaluatorMustFindTheHighestBidInAscendingOrder(): void 
-  {
-    $Auction = new Auction('New car');
-    
-    $user1 = new User("User1");
-    $user2 = new User("User2");
-    $user3 = new User("User3");
-    $user4 = new User("User3");
-
-    $Auction->receivesBid(new Bid($user4, 200));
-    $Auction->receivesBid(new Bid($user3, 1500));
-    $Auction->receivesBid(new Bid($user2, 2000));
-    $Auction->receivesBid(new Bid($user1, 2500));
-    
+  /**
+   * @dataProvider auctionInAscendingOrder
+   * @dataProvider auctionInDescendingOrder
+   * @dataProvider auctionInRandomOrder
+   */
+  public function testEvaluatorMustFindTheHighestBid(Auction $auction): void 
+  { 
     $Evaluator = new Evaluator();
 
-    $Evaluator->evaluates($Auction);
+    $Evaluator->evaluates($auction);
 
     $highestBid = $Evaluator->getHighestBid();
 
     self::assertEquals(2500, $highestBid);
   }
-  
-  public function testEvaluatorMustFindTheHighestBidInDescendingOrder(): void {
 
-    $Auction = new Auction('New car');
-
-
-    $user1 = new User("User1");
-    $user2 = new User("User2");
-    $user3 = new User("User3");
-    $user4 = new User("User3");
-
-    $Auction->receivesBid(new Bid($user1, 2500));
-    $Auction->receivesBid(new Bid($user2, 2000));
-    $Auction->receivesBid(new Bid($user3, 1500));
-    $Auction->receivesBid(new Bid($user4, 200));
+  /**
+   * @dataProvider auctionInAscendingOrder
+   * @dataProvider auctionInDescendingOrder
+   * @dataProvider auctionInRandomOrder
+   */
+  public function testEvaluatorMustFindThelowestBid(Auction $auction): void {
 
     $Evaluator = new Evaluator();
 
-    $Evaluator->evaluates($Auction);
-
-    $highestBid = $Evaluator->getHighestBid();
-
-    self::assertEquals(2500, $highestBid);
-  }  
-
-  public function testEvaluatorMustFindThelowestBidInDescendingOrder(): void {
-
-    $Auction = new Auction('New car');
-
-    $user1 = new User("User1");
-    $user2 = new User("User2");
-    $user3 = new User("User3");
-    $user4 = new User("User3");
-
-    $Auction->receivesBid(new Bid($user1, 2500));
-    $Auction->receivesBid(new Bid($user2, 2000));
-    $Auction->receivesBid(new Bid($user3, 1500));
-    $Auction->receivesBid(new Bid($user4, 200));
-
-    $Evaluator = new Evaluator();
-
-    $Evaluator->evaluates($Auction);
+    $Evaluator->evaluates($auction);
 
     $lowestBid = $Evaluator->getLowestBid();
 
     self::assertEquals(200, $lowestBid);
   }
 
-  public function testEvaluatorMustFindThelowestBidInAscendingOrder(): void {
-
-    $Auction = new Auction('New car');
-
-
-    $user1 = new User("User1");
-    $user2 = new User("User2");
-    $user3 = new User("User3");
-    $user4 = new User("User3");
-
-    $Auction->receivesBid(new Bid($user4, 200));
-    $Auction->receivesBid(new Bid($user3, 1500));
-    $Auction->receivesBid(new Bid($user2, 2000));
-    $Auction->receivesBid(new Bid($user1, 2500));
-
-    $Evaluator = new Evaluator();
-
-    $Evaluator->evaluates($Auction);
-
-    $lowestBid = $Evaluator->getLowestBid();
-
-    self::assertEquals(200, $lowestBid);
-  }
-  
-  public function testevaluatorMustFind3HighestBids(): void {
-    $auction = new Auction("New car");
-
-    $user1 = new User("user1");
-    $user2 = new User("user2");
-    $user3 = new User("user3");
-    $user4 = new User("user4");
-
-    $auction->receivesBid(new Bid($user1, 1500));
-    $auction->receivesBid(new Bid($user2, 3000));
-    $auction->receivesBid(new Bid($user3, 500));
-    $auction->receivesBid(new Bid($user4, 1000));
+  /**
+   * @dataProvider auctionInAscendingOrder
+   * @dataProvider auctionInDescendingOrder
+   * @dataProvider auctionInRandomOrder
+   */
+  public function testevaluatorMustFind3HighestBids(Auction $auction): void {
 
     $evaluator = new Evaluator();
 
@@ -125,8 +57,67 @@ class EvaluatorTest extends TestCase
 
     $highestBids = $evaluator->getHighestBids();
     self::assertCount(3, $highestBids);
-    self::assertEquals(3000, $highestBids[0]->getValue());
-    self::assertEquals(1500, $highestBids[1]->getValue());
-    self::assertEquals(1000, $highestBids[2]->getValue());
+    self::assertEquals(2500, $highestBids[0]->getValue());
+    self::assertEquals(2000, $highestBids[1]->getValue());
+    self::assertEquals(1500, $highestBids[2]->getValue());
+  }
+
+  public function auctionInAscendingOrder(): array 
+  {
+    $auction = new Auction('New car');
+    
+    $user1 = new User("User1");
+    $user2 = new User("User2");
+    $user3 = new User("User3");
+    $user4 = new User("User3");
+
+    $auction->receivesBid(new Bid($user4, 200));
+    $auction->receivesBid(new Bid($user3, 1500));
+    $auction->receivesBid(new Bid($user2, 2000));
+    $auction->receivesBid(new Bid($user1, 2500)); 
+
+    return [
+      [$auction]
+    ];
+  }
+
+  public function auctionInDescendingOrder(): array
+  {
+    $auction = new auction('New car');
+
+    $user1 = new User("User1");
+    $user2 = new User("User2");
+    $user3 = new User("User3");
+    $user4 = new User("User3");
+
+    $auction->receivesBid(new Bid($user1, 2500));
+    $auction->receivesBid(new Bid($user2, 2000));
+    $auction->receivesBid(new Bid($user3, 1500));
+    $auction->receivesBid(new Bid($user4, 200));
+
+    return [
+      [$auction]
+    ];
+  }
+
+  public function auctionInRandomOrder(): array
+  {
+    $auction = new auction('New car');
+
+    $user1 = new User("User1");
+    $user2 = new User("User2");
+    $user3 = new User("User3");
+    $user4 = new User("User3");
+    
+    
+    $auction->receivesBid(new Bid($user2, 2000));
+    $auction->receivesBid(new Bid($user1, 2500));
+    $auction->receivesBid(new Bid($user4, 200));
+    $auction->receivesBid(new Bid($user3, 1500));
+    
+
+    return [
+      [$auction]
+    ];
   }
 }
