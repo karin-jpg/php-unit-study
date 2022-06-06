@@ -23,7 +23,7 @@ class Auction
     /**
      * @return Bid[]
      */
-    public function getbids(): array
+    public function getBids(): array
     {
         return $this->bids;
     }
