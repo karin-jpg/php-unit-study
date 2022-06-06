@@ -7,11 +7,14 @@ use Auction\Model\Auction;
 class Evaluator
 {
   private $highestBid;
+  private $lowestBid;
+  private $highestBids;
 
   public function __construct()
   {
     $this->highestBid = -INF;
     $this->lowestBid = INF;
+    $this->highestBids = array();
   }
 
   public function evaluates(Auction $auction): void
@@ -25,6 +28,10 @@ class Evaluator
         $this->lowestBid = $bid->getValue();
       }
     }
+
+    $this->highestBids = $auction->getBids(); 
+    rsort($this->highestBids);
+    $this->highestBids = array_splice($this->highestBids, 0, 3);
   }
 
   public function getHighestBid(): float
@@ -35,5 +42,10 @@ class Evaluator
   public function getLowestBid(): float
   {
     return $this->lowestBid;
+  }
+
+  public function getHighestBids(): array
+  {
+    return $this->highestBids;
   }
 }
