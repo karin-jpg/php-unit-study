@@ -8,8 +8,6 @@ use Auction\Model\Auction;
 use Auction\Model\User;
 use Auction\Service\Evaluator;
 
-require 'vendor/autoload.php';
-
 class EvaluatorTest extends TestCase
 {
 
@@ -73,7 +71,7 @@ class EvaluatorTest extends TestCase
     $user1 = new User("User1");
     $user2 = new User("User2");
     $user3 = new User("User3");
-    $user4 = new User("User3");
+    $user4 = new User("User4");
 
     $auction->receivesBid(new Bid($user4, 200));
     $auction->receivesBid(new Bid($user3, 1500));
@@ -92,7 +90,7 @@ class EvaluatorTest extends TestCase
     $user1 = new User("User1");
     $user2 = new User("User2");
     $user3 = new User("User3");
-    $user4 = new User("User3");
+    $user4 = new User("User4");
 
     $auction->receivesBid(new Bid($user1, 2500));
     $auction->receivesBid(new Bid($user2, 2000));
@@ -111,7 +109,7 @@ class EvaluatorTest extends TestCase
     $user1 = new User("User1");
     $user2 = new User("User2");
     $user3 = new User("User3");
-    $user4 = new User("User3");
+    $user4 = new User("User4");
     
     
     $auction->receivesBid(new Bid($user2, 2000));
