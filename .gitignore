@@ -1,3 +1,4 @@
 vendor/
 .idea/
 .tests.txt
+.phpunit.result.cache
