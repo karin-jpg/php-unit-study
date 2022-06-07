@@ -64,6 +64,15 @@ class EvaluatorTest extends TestCase
     self::assertEquals(1500, $highestBids[2]->getValue());
   }
 
+  public function testEvaluatorMustDeclineEmptyAuction(): void {
+
+    $this->expectException(\DomainException::class);
+    $this->expectExceptionMessage('It\'s not possible to evaluate a empty auction');
+    $auction  = new Auction('New car');
+
+    $this->evaluator->evaluates($auction);
+  }
+
   public function auctionInAscendingOrder(): array 
   {
     $auction = new Auction('New car');
