@@ -81,7 +81,7 @@ class EvaluatorTest extends TestCase
     $auction->receivesBid(new Bid($user1, 2500)); 
 
     return [
-      [$auction]
+      "ascending order" => [$auction]
     ];
   }
 
@@ -100,7 +100,7 @@ class EvaluatorTest extends TestCase
     $auction->receivesBid(new Bid($user4, 200));
 
     return [
-      [$auction]
+      "descending order" => [$auction]
     ];
   }
 
@@ -121,7 +121,7 @@ class EvaluatorTest extends TestCase
     
 
     return [
-      [$auction]
+      "ramdon order" => [$auction]
     ];
   }
 }
