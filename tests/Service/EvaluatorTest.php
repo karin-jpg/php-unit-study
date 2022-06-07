@@ -12,6 +12,14 @@ require 'vendor/autoload.php';
 
 class EvaluatorTest extends TestCase
 {
+
+  private $evaluator;
+
+  protected function setUp(): void
+  {
+    $this->evaluator = new Evaluator();
+  }
+
   /**
    * @dataProvider auctionInAscendingOrder
    * @dataProvider auctionInDescendingOrder
@@ -19,11 +27,10 @@ class EvaluatorTest extends TestCase
    */
   public function testEvaluatorMustFindTheHighestBid(Auction $auction): void 
   { 
-    $Evaluator = new Evaluator();
 
-    $Evaluator->evaluates($auction);
+    $this->evaluator->evaluates($auction);
 
-    $highestBid = $Evaluator->getHighestBid();
+    $highestBid = $this->evaluator->getHighestBid();
 
     self::assertEquals(2500, $highestBid);
   }
@@ -35,11 +42,9 @@ class EvaluatorTest extends TestCase
    */
   public function testEvaluatorMustFindThelowestBid(Auction $auction): void {
 
-    $Evaluator = new Evaluator();
+    $this->evaluator->evaluates($auction);
 
-    $Evaluator->evaluates($auction);
-
-    $lowestBid = $Evaluator->getLowestBid();
+    $lowestBid = $this->evaluator->getLowestBid();
 
     self::assertEquals(200, $lowestBid);
   }
@@ -51,11 +56,10 @@ class EvaluatorTest extends TestCase
    */
   public function testevaluatorMustFind3HighestBids(Auction $auction): void {
 
-    $evaluator = new Evaluator();
 
-    $evaluator->evaluates($auction);
+    $this->evaluator->evaluates($auction);
 
-    $highestBids = $evaluator->getHighestBids();
+    $highestBids = $this->evaluator->getHighestBids();
     self::assertCount(3, $highestBids);
     self::assertEquals(2500, $highestBids[0]->getValue());
     self::assertEquals(2000, $highestBids[1]->getValue());
