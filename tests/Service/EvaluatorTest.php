@@ -52,7 +52,8 @@ class EvaluatorTest extends TestCase
    * @dataProvider auctionInDescendingOrder
    * @dataProvider auctionInRandomOrder
    */
-  public function testevaluatorMustFind3HighestBids(Auction $auction): void {
+  public function testevaluatorMustFind3HighestBids(Auction $auction): void 
+  {
 
 
     $this->evaluator->evaluates($auction);
@@ -64,11 +65,24 @@ class EvaluatorTest extends TestCase
     self::assertEquals(1500, $highestBids[2]->getValue());
   }
 
-  public function testEvaluatorMustDeclineEmptyAuction(): void {
+  public function testEvaluatorMustDeclineEmptyAuction(): void 
+  {
 
     $this->expectException(\DomainException::class);
     $this->expectExceptionMessage('It\'s not possible to evaluate a empty auction');
     $auction  = new Auction('New car');
+
+    $this->evaluator->evaluates($auction);
+  }
+
+  public function testFinalizedAuctionCannotBeEvaluated(): void
+  {
+
+    $this->expectException(\DomainException::class);
+    $this->expectExceptionMessage('A finalized auction cannot be evaluated');
+    $auction = new Auction("new car");
+    $auction->receivesBid(new Bid(New User('user1'), 1500));
+    $auction->finalize();
 
     $this->evaluator->evaluates($auction);
   }

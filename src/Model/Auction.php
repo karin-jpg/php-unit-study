@@ -10,9 +10,12 @@ class Auction
     private $bids;
     /** @var string */
     private $description;
+    /** @var bool */
+    private $finalized;
 
     public function __construct(string $description)
     {
+        $this->finalized = false;
         $this->description = $description;
         $this->bids = [];
     }
@@ -35,6 +38,16 @@ class Auction
     public function getBids(): array
     {
         return $this->bids;
+    }
+
+    public function finalize(): void
+    {
+      $this->finalized = true;
+    }
+
+    public function isFinalized(): bool
+    {
+      return $this->finalized;
     }
 
     private function isLastBidFromSameUser(Bid $bid): bool

@@ -20,8 +20,12 @@ class Evaluator
   public function evaluates(Auction $auction): void
   {
 
-    if(empty($auction->getBids())) {
+    if (empty($auction->getBids())) {
       throw new \DomainException('It\'s not possible to evaluate a empty auction');
+    }
+
+    if ($auction->isFinalized()) {
+      throw new \DomainException('A finalized auction cannot be evaluated');
     }
 
     foreach ($auction->getBids() as $bid) {
