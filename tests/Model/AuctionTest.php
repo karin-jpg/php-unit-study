@@ -24,6 +24,31 @@ class AuctionTest extends TestCase
     self::assertEquals(1500, $auction->getBids()[0]->getValue());
   }
 
+  public function testAuctionMustNotReceiveMoreThan5BidsFromTheSameUser()
+  {
+    $auction = new Auction("new game");
+    $user1 = new User("user1");
+    $user2 = new User("user2");
+
+    $auction->receivesBid(new Bid($user1, 1000));
+    $auction->receivesBid(new Bid($user2, 1500));
+    $auction->receivesBid(new Bid($user1, 2000));
+    $auction->receivesBid(new Bid($user2, 2500));
+    $auction->receivesBid(new Bid($user1, 3000));
+    $auction->receivesBid(new Bid($user2, 3500));
+    $auction->receivesBid(new Bid($user1, 4000));
+    $auction->receivesBid(new Bid($user2, 4500));
+    $auction->receivesBid(new Bid($user1, 5000));
+    $auction->receivesBid(new Bid($user2, 5500));
+
+    $auction->receivesBid(new Bid($user1, 6000));
+
+    
+    self::assertCount(10, $auction->getBids());
+    self::assertEquals(5500, $auction->getBids()[array_key_last($auction->getBids())]->getValue());
+
+  }
+
   /**
    * @dataProvider createBids
    */
