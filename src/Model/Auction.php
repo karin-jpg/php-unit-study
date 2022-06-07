@@ -15,9 +15,12 @@ class Auction
         $this->bids = [];
     }
 
-    public function receivesBid(Bid $Bid)
+    public function receivesBid(Bid $bid)
     {
-        $this->bids[] = $Bid;
+      if(!empty($this->bids) && $this->isLastBidFromSameUser($bid)) {
+        return;
+      }
+        $this->bids[] = $bid;
     }
 
     /**
@@ -26,5 +29,11 @@ class Auction
     public function getBids(): array
     {
         return $this->bids;
+    }
+
+    private function isLastBidFromSameUser(Bid $bid): bool
+    {
+      $lastBid = $this->bids[count($this->bids) - 1];
+      return $bid->getUser() == $lastBid->getUser();
     }
 }
