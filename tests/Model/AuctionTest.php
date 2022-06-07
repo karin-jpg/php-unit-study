@@ -12,18 +12,37 @@ require 'vendor/autoload.php';
 class AuctionTest extends TestCase
 {
 
-  public function testAuctionMustReceiveBids()
+  /**
+   * @dataProvider createBids
+   */
+  public function testAuctionMustReceiveBids(int $numberOfBids, Auction $auction, array $values)
+  {
+
+    self::assertCount($numberOfBids, $auction->getBids());
+
+    foreach ($values as $key => $value) {
+      self::assertEquals($value, $auction->getBids()[$key]->getValue());
+    }
+    
+  }
+
+
+  public function createBids()
   {
     $user1 = new User("user1");
     $user2 = new User("user2");
 
-    $auction = new Auction("Playstation 5");
-    $auction->receivesBid(new Bid($user1, 1000));
-    $auction->receivesBid(new Bid($user2, 2000));
+    $auctionWith2Bids = new Auction("Playstation 5");
+    $auctionWith2Bids->receivesBid(new Bid($user1, 1000));
+    $auctionWith2Bids->receivesBid(new Bid($user2, 2000));
 
-    self::assertCount(2, $auction->getBids());
-    self::assertEquals(1000, $auction->getBids()[0]->getValue());
-    self::assertEquals(2000, $auction->getBids()[1]->getValue());
-    
+
+    $auctionWith1Bid = new Auction("Xbox One");
+    $auctionWith1Bid->receivesBid(new Bid($user1, 4000));
+
+    return [
+      "2-bids-auction" => [2, $auctionWith2Bids, [1000, 2000]],
+      "1-bid-auction" => [1, $auctionWith1Bid, [4000]]
+    ];
   }
 }
