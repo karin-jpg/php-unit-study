@@ -2,6 +2,8 @@
 
 namespace Auction\Model;
 
+use DomainException;
+
 class Auction
 {
     /** @var Bid[] */
@@ -18,11 +20,11 @@ class Auction
     public function receivesBid(Bid $bid)
     {
       if (!empty($this->bids) && $this->isLastBidFromSameUser($bid)) {
-        return;
+        throw new DomainException('User cannot make 2 bids in a row');
       }
 
       if ($this->userHasMoreThan5Bids($bid)) {
-        return;
+        throw new DomainException('User cannot make more than 5 bids per auction');
       }
         $this->bids[] = $bid;
     }

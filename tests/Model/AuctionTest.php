@@ -5,6 +5,7 @@ namespace Auction\tests\Model;
 use Auction\Model\Auction;
 use Auction\Model\User;
 use Auction\Model\Bid;
+use DomainException;
 use PHPUnit\Framework\TestCase;
 
 require 'vendor/autoload.php';
@@ -12,20 +13,21 @@ require 'vendor/autoload.php';
 class AuctionTest extends TestCase
 {
 
-  public function testAuctionMustNotReceiveRepeatedBids()
+  public function testAuctionMustNotReceive2BidsInARowFromSameUser()
   {
+    $this->expectException(\DomainException::class);
+    $this->expectExceptionMessage('User cannot make 2 bids in a row');
     $auction = new Auction("New game");
     $user1 = new User("user1");
 
     $auction->receivesBid(new Bid($user1, 1500));
     $auction->receivesBid(new Bid($user1, 2000));
-
-    self::assertCount(1, $auction->getBids());
-    self::assertEquals(1500, $auction->getBids()[0]->getValue());
   }
 
   public function testAuctionMustNotReceiveMoreThan5BidsFromTheSameUser()
   {
+    $this->expectException(\DomainException::class);
+    $this->expectExceptionMessage('User cannot make more than 5 bids per auction');
     $auction = new Auction("new game");
     $user1 = new User("user1");
     $user2 = new User("user2");
@@ -42,10 +44,6 @@ class AuctionTest extends TestCase
     $auction->receivesBid(new Bid($user2, 5500));
 
     $auction->receivesBid(new Bid($user1, 6000));
-
-    
-    self::assertCount(10, $auction->getBids());
-    self::assertEquals(5500, $auction->getBids()[array_key_last($auction->getBids())]->getValue());
 
   }
 
