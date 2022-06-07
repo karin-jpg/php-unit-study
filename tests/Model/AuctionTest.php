@@ -12,6 +12,18 @@ require 'vendor/autoload.php';
 class AuctionTest extends TestCase
 {
 
+  public function testAuctionMustNotReceiveRepeatedBids()
+  {
+    $auction = new Auction("New game");
+    $user1 = new User("user1");
+
+    $auction->receivesBid(new Bid($user1, 1500));
+    $auction->receivesBid(new Bid($user1, 2000));
+
+    self::assertCount(1, $auction->getBids());
+    self::assertEquals(1500, $auction->getBids()[0]->getValue());
+  }
+
   /**
    * @dataProvider createBids
    */
