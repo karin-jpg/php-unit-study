@@ -17,7 +17,11 @@ class Auction
 
     public function receivesBid(Bid $bid)
     {
-      if(!empty($this->bids) && $this->isLastBidFromSameUser($bid)) {
+      if (!empty($this->bids) && $this->isLastBidFromSameUser($bid)) {
+        return;
+      }
+
+      if ($this->userHasMoreThan5Bids($bid)) {
         return;
       }
         $this->bids[] = $bid;
@@ -33,7 +37,20 @@ class Auction
 
     private function isLastBidFromSameUser(Bid $bid): bool
     {
-      $lastBid = $this->bids[count($this->bids) - 1];
+      $lastBid = $this->bids[array_key_last($this->bids)];
       return $bid->getUser() == $lastBid->getUser();
+    }
+
+    private function userHasMoreThan5Bids(Bid $bid): bool
+    {
+      $user = $bid->getUser();
+      $totalBids = 0;
+      foreach ($this->getBids() as $bid) {
+        if($user->getName() == $bid->getUser()->getName()) {
+          $totalBids++;
+        }
+      } 
+      
+      return $totalBids >= 5;
     }
 }
